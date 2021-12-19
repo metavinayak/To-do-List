@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser');
-
+const _ = require('lodash')
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -26,15 +26,13 @@ const defaultListName = "To-do";
 app.get('/', function (req, res) {
 
     item.find({}, (err, tasks) => {
-        // console.log(tasks)
         res.render('list', { today: (new Date()).toLocaleDateString("en-US", options), hindi: (new Date()).toLocaleDateString("hi-IN", options), new_items: tasks, listTitle: defaultListName });
     });
 })
 
 app.get('/:listName', function (req, res) {
 
-    const listName = req.params.listName;
-    // console.log(listName);
+    const listName = _.capitalize(req.params.listName);
 
     list.findOne({ listName: listName }, function (err, foundList) {
 
@@ -53,7 +51,6 @@ app.get('/:listName', function (req, res) {
                 }
             }
             else {
-                // console.log(foundList)
                 res.render('list', { today: (new Date()).toLocaleDateString("en-US", options), hindi: (new Date()).toLocaleDateString("hi-IN", options), new_items: foundList.items, listTitle: foundList.listName });
             }
         }
@@ -63,9 +60,9 @@ app.get('/:listName', function (req, res) {
 });
 app.post('/', function (req, res) {
 
-    const listTitle = req.body.listTitle;
+    const listTitle = _.capitalize(req.body.listTitle);
     const newItem = new item({
-        task: req.body.text,
+        task: _.capitalize(req.body.text),
         checked: ""
     });
 
@@ -85,39 +82,38 @@ app.post('/', function (req, res) {
 
 })
 app.post('/check', function (req, res) {
-    // console.log(req.body)
     const itemID = req.body.checkbox;
-    const listTitle = req.body.listTitle;
+    const listTitle = _.capitalize(req.body.listTitle);
 
-    if (itemID) {
-        if (listTitle === defaultListName) {
-            item.findOneAndUpdate({ _id: itemID }, { checked: "checked disabled" }, function (err) {
-                if (err) {
-                    console.log("Error occured while updating");
-                }
-            });
-            res.redirect('/');
-        }
-        else {
-
-            const query = { listName: listTitle, "items._id": itemID };
-            list.updateOne(query, { $set: { "items.$.checked": "checked disabled" } }, function (error) {
-                if (error)
-                    console.log(error);
-            });
-
-            res.redirect('/' + listTitle)
-        }
-    }
-    else {
+    // if (itemID) {
+    if (listTitle === defaultListName) {
+        item.findOneAndUpdate({ _id: itemID }, { checked: "checked disabled" }, function (err) {
+            if (err) {
+                console.log("Error occured while updating");
+            }
+        });
         res.redirect('/');
     }
+    else {
+
+        const query = { listName: listTitle, "items._id": itemID };
+        list.updateOne(query, { $set: { "items.$.checked": "checked disabled" } }, function (error) {
+            if (error)
+                console.log(error);
+        });
+
+        res.redirect('/' + listTitle)
+    }
+    // }
+    // else {
+    //     res.redirect('/');
+    // }
 
 });
 
 app.post('/delete', function (req, res) {
 
-    const listTitle = req.body.listTitle;
+    const listTitle = _.capitalize(req.body.listTitle);
 
     if (listTitle === defaultListName) {
         item.deleteMany({ checked: "checked disabled" }, function (err) {
@@ -125,7 +121,7 @@ app.post('/delete', function (req, res) {
                 console.log("Error occured while deleting");
             }
         })
-
+        res.redirect('/')
     }
     else {
 
