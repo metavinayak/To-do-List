@@ -1,0 +1,112 @@
+@import url('https://allfont.net/allfont.css?fonts=comic-sans-ms');
+
+body {
+    font-family: 'Comic Sans', sans-serif;
+    font-size: 1.25em;
+    background-image: url("../assets/pattern.png");
+}
+
+.container {
+    transition: 0.4s;
+    width: 55%;
+    box-shadow: 0px -10px 20px 0 rgba(255, 255, 255, .3);
+    border-radius: 30px;
+    background: url("../assets/stock.png") center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: white;
+    position: relative;
+    padding: 25px;
+    margin: auto;
+    padding-left: 1.75em;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    min-height: 720px;
+}
+
+.text {
+    font-size: 15px;
+}
+
+.btn-round {
+
+    font-size: 2.2rem;
+    padding: 0 .8rem 0 .8rem;
+    margin: 1rem 1rem;
+    border: 2px;
+    border-radius: 100%;
+    cursor: pointer;
+    background-color: blueviolet;
+}
+
+input[type=text],
+select {
+    width: 40%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=checkbox] {
+    margin: 20px;
+}
+
+.footer {
+    font-size: .9rem;
+    margin: auto;
+    text-align: center;
+    color: azure;
+    background-color: black;
+    opacity: 0.7;
+    width: 100%;
+    padding: 7px;
+    bottom: 0;
+}
+
+input[type=checkbox]:checked+label {
+    text-decoration: line-through;
+    color: rgb(114, 116, 116);
+}
+
+input[type=checkbox]:not(:checked)+label {
+    color: azure;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        font-size: .8rem;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    .btn-round {
+        font-size: 1.5rem;
+        padding: 0 .6rem 0 .6rem;
+        border-radius: 100%;
+
+    }
+
+    input[type=text],
+    select {
+        font-size: .7rem;
+        width: 70%;
+        padding: 10px 15px;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    h5 {
+        font-size: .8rem;
+    }
+
+    #deleteChecked {
+        font-size: .7rem;
+    }
+}
