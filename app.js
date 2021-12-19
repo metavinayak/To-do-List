@@ -1,13 +1,16 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const _ = require('lodash')
+const dotenv = require('dotenv');
+dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.set('view engine', 'ejs');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1/todolistDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://heroku:'+process.env.heroku+'@cluster0.igxpi.mongodb.net/todolistDB?retryWrites=true&w=majority', { useNewUrlParser: true });
+
 
 const itemsSchema = new mongoose.Schema({
     task: String,
