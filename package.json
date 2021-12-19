@@ -15,5 +15,8 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.1.2"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "description": ""
 }
