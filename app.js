@@ -9,7 +9,7 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://heroku:'+process.env.heroku+'@cluster0.igxpi.mongodb.net/todolistDB?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://heroku:' + process.env.heroku + '@cluster0.igxpi.mongodb.net/todolistDB?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 
 const itemsSchema = new mongoose.Schema({
@@ -140,5 +140,8 @@ app.post('/delete', function (req, res) {
     }
 });
 
-let port = process.env.PORT || 3000
-app.listen(port, () => console.log('Testing console on port ' + String(port)))
+let port = process.env.PORT
+if (port == null || port == '') {
+    port = 5000;
+}
+app.listen(port)
