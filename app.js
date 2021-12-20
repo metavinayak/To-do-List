@@ -24,12 +24,11 @@ const listsSchema = new mongoose.Schema({
 });
 const list = mongoose.model('list', listsSchema);
 
-const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const defaultListName = "To-do";
 app.get('/', function (req, res) {
 
     item.find({}, (err, tasks) => {
-        res.render('list', { today: (new Date()).toLocaleDateString("en-US", options), hindi: (new Date()).toLocaleDateString("hi-IN", options), new_items: tasks, listTitle: defaultListName });
+        res.render('list', { new_items: tasks, listTitle: defaultListName });
     });
 })
 
@@ -54,7 +53,7 @@ app.get('/:listName', function (req, res) {
                 }
             }
             else {
-                res.render('list', { today: (new Date()).toLocaleDateString("en-US", options), hindi: (new Date()).toLocaleDateString("hi-IN", options), new_items: foundList.items, listTitle: foundList.listName });
+                res.render('list', { new_items: foundList.items, listTitle: foundList.listName });
             }
         }
         else
@@ -88,7 +87,6 @@ app.post('/check', function (req, res) {
     const itemID = req.body.checkbox;
     const listTitle = _.capitalize(req.body.listTitle);
 
-    // if (itemID) {
     if (listTitle === defaultListName) {
         item.findOneAndUpdate({ _id: itemID }, { checked: "checked disabled" }, function (err) {
             if (err) {
@@ -107,11 +105,6 @@ app.post('/check', function (req, res) {
 
         res.redirect('/' + listTitle)
     }
-    // }
-    // else {
-    //     res.redirect('/');
-    // }
-
 });
 
 app.post('/delete', function (req, res) {
